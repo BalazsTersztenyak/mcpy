@@ -3,6 +3,8 @@ import math
 
 import settings
 
+UP_WORLD = Vec3(0, 1, 0)
+
 class Camera:
     def __init__(self, position, yaw, pitch):
         self.position = position
@@ -16,7 +18,7 @@ class Camera:
         
         self.view_mat = Mat4()
 
-        self.up = Vec3(0, 1, 0)
+        self.up = UP_WORLD
 
     def update(self):
         self.update_vectors()
@@ -30,7 +32,7 @@ class Camera:
                           math.sin(self.pitch),
                           math.sin(self.yaw) * math.cos(self.pitch)).normalize()
         
-        self.right = self.front.cross(Vec3(0, 1, 0)).normalize()
+        self.right = self.front.cross(UP_WORLD).normalize()
 
         self.up = self.right.cross(self.front).normalize()
         
@@ -48,10 +50,10 @@ class Camera:
         self.position += self.right * velocity
 
     def move_up(self, velocity):
-        self.position += Vec3(0, 1, 0) * velocity
+        self.position += UP_WORLD * velocity
 
     def move_down(self, velocity):
-        self.position -= Vec3(0, 1, 0) * velocity
+        self.position -= UP_WORLD * velocity
 
     def move_forward(self, velocity):
         self.position += self.front * velocity
