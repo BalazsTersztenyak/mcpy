@@ -3,7 +3,11 @@ import math
 
 import settings
 
+<<<<<<< HEAD
 WORLD_UP = Vec3(0, 1, 0)
+=======
+UP_WORLD = Vec3(0, 1, 0)
+>>>>>>> a70a58ee209dc469e95ef72718df9d64bbd8c8ba
 
 class Camera:
     def __init__(self, position, yaw, pitch):
@@ -18,7 +22,11 @@ class Camera:
         
         self.view_mat = Mat4()
 
+<<<<<<< HEAD
         self.camera_up = Vec3(0, 1, 0)
+=======
+        self.up = UP_WORLD
+>>>>>>> a70a58ee209dc469e95ef72718df9d64bbd8c8ba
 
     #region Update
     def update(self):
@@ -34,7 +42,11 @@ class Camera:
                           math.sin(self.pitch),
                           math.sin(self.yaw) * math.cos(self.pitch)).normalize()
         
+<<<<<<< HEAD
         self.right = self.camera_front.cross(WORLD_UP).normalize()
+=======
+        self.right = self.front.cross(UP_WORLD).normalize()
+>>>>>>> a70a58ee209dc469e95ef72718df9d64bbd8c8ba
 
         self.camera_up = self.right.cross(self.camera_front).normalize()
     #endregion
@@ -56,10 +68,17 @@ class Camera:
         self.position += self.right * velocity
 
     def move_up(self, velocity):
+<<<<<<< HEAD
         self.position += WORLD_UP * velocity
 
     def move_down(self, velocity):
         self.position -= WORLD_UP * velocity
+=======
+        self.position += UP_WORLD * velocity
+
+    def move_down(self, velocity):
+        self.position -= UP_WORLD * velocity
+>>>>>>> a70a58ee209dc469e95ef72718df9d64bbd8c8ba
 
     def move_forward(self, velocity):
         self.position += self.camera_front * velocity
