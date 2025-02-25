@@ -27,7 +27,8 @@ class VoxelEngine:
         self.shader = get_program("basic")
 
     def update(self, dt):
-        self.window.set_caption(f"FPS: {1/dt:.2f}")
+        pass
+        # self.window.set_caption(f"FPS: {1/dt:.2f}")
         
     def run(self):
         pyglet.clock.schedule_interval(self.update, 1/60)
