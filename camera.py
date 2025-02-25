@@ -3,6 +3,8 @@ import math
 
 import settings
 
+WORLD_UP = Vec3(0, 1, 0)
+
 class Camera:
     def __init__(self, position, yaw, pitch):
         self.position = position
@@ -16,31 +18,37 @@ class Camera:
         
         self.view_mat = Mat4()
 
-        self.up = Vec3(0, 1, 0)
+        self.camera_up = Vec3(0, 1, 0)
 
+    #region Update
     def update(self):
         self.update_vectors()
         self.update_view_matrix()
+        # print(self.position)
 
     def update_view_matrix(self):
-        self.view_mat = Mat4.look_at(self.position, self.position + self.front, self.up)
+        self.view_mat = Mat4.look_at(self.position, self.position + self.camera_front, self.camera_up)
 
     def update_vectors(self):
-        self.front = Vec3(math.cos(self.yaw) * math.cos(self.pitch), 
+        self.camera_front = Vec3(math.cos(self.yaw) * math.cos(self.pitch), 
                           math.sin(self.pitch),
                           math.sin(self.yaw) * math.cos(self.pitch)).normalize()
         
-        self.right = self.front.cross(Vec3(0, 1, 0)).normalize()
+        self.right = self.camera_front.cross(WORLD_UP).normalize()
 
-        self.up = self.right.cross(self.front).normalize()
-        
+        self.camera_up = self.right.cross(self.camera_front).normalize()
+    #endregion
+
+    #region Camera Controls
     def rotate_pitch(self, delta_y):
         self.pitch -= delta_y
         self.pitch = clamp(self.pitch, -settings.PITCH_MAX, settings.PITCH_MAX)
 
     def rotate_yaw(self, delta_x):
         self.yaw += delta_x
+    #endregion
 
+    #region Movement
     def move_left(self, velocity):
         self.position -= self.right * velocity
 
@@ -48,13 +56,14 @@ class Camera:
         self.position += self.right * velocity
 
     def move_up(self, velocity):
-        self.position += Vec3(0, 1, 0) * velocity
+        self.position += WORLD_UP * velocity
 
     def move_down(self, velocity):
-        self.position -= Vec3(0, 1, 0) * velocity
+        self.position -= WORLD_UP * velocity
 
     def move_forward(self, velocity):
-        self.position += self.front * velocity
+        self.position += self.camera_front * velocity
 
     def move_backward(self, velocity):
-        self.position -= self.front * velocity
+        self.position -= self.camera_front * velocity
+    #endregion
