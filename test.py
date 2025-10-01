@@ -1,12 +1,13 @@
-import pyglet
-from pyglet.graphics.shader import Shader, ShaderProgram
-from pyglet.math import Vec3, Mat4
-import pyglet.gl as gl
-from pyglet.graphics import Batch
+import pyglet  # type: ignore
+from pyglet.graphics.shader import Shader, ShaderProgram  # type: ignore
+from pyglet.math import Vec3, Mat4  # type: ignore
+import pyglet.gl as gl  # type: ignore
+from pyglet.graphics import Batch  # type: ignore
 # import math
 
 class MyWindow(pyglet.window.Window):
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initializes the window and sets up the shader."""
         super().__init__(resizable=True)
 
         self.set_size(800, 600)
@@ -19,10 +20,10 @@ class MyWindow(pyglet.window.Window):
         self.build_shader("basic")
 
     def on_draw(self) -> None:
-        self.clear()
-        self.batch.draw()
+        self.clear()    # window.clear()
+        self.batch.draw()   # window.batch.draw()
 
-    def on_resize(self, width, height):
+    def on_resize(self, width: int, height: int) -> None:
         gl.glViewport(0, 0, width, height)
 
         proj_mat = Mat4.perspective_projection(aspect=width/height, 
@@ -32,7 +33,8 @@ class MyWindow(pyglet.window.Window):
         self.shader['vp'] = vp
 
 
-    def build_shader(self, shader_name):
+    def build_shader(self, shader_name: str) -> None:
+        """Builds the shader program from vertex and fragment shader files."""
         with open(f"shaders/{shader_name}.vert", "r") as f:
             vert_src = f.read()
 
@@ -98,14 +100,15 @@ class MyWindow(pyglet.window.Window):
             # 3, 0, 4, 4, 7, 3  # bottom
         ]
 
-        self.vertex_list = self.shader.vertex_list_indexed(len(vertices) // 3, 
-                                                            gl.GL_TRIANGLES, 
-                                                            batch=self.batch, 
-                                                            indices=indices,
-                                                            vertices=('f', vertices),
-                                                            # colors=('f', colors),
-                                                            tex_coords=('f', [0, 0, 0, 1, 1, 1, 1, 0])
-                                                            )
+        self.vertex_list = self.shader.vertex_list_indexed(
+                                        len(vertices) // 3, 
+                                        gl.GL_TRIANGLES, 
+                                        batch=self.batch, 
+                                        indices=indices,
+                                        vertices=('f', vertices),
+                                        # colors=('f', colors),
+                                        tex_coords=('f', [0, 0, 0, 1, 1, 1, 1, 0])
+                                        )
         
         self.grass = pyglet.image.load('grass_side.png')
         self.texture = self.grass.get_texture()
@@ -113,7 +116,8 @@ class MyWindow(pyglet.window.Window):
 
         # self.shader['sampTexture'] = self.texture
         
-    def update(self, dt):
+    def update(self, dt: float) -> None:
+        """Updates the model matrix and applies rotation."""
         # self.angle += dt
 
         rotate_mat_y = Mat4.from_rotation(self.angle, Vec3(0, 1, 0))
@@ -122,7 +126,7 @@ class MyWindow(pyglet.window.Window):
 
         self.shader['model'] = model_mat
 
-def main():
+def main() -> None:
     window = MyWindow()
     gl.glEnable(gl.GL_DEPTH_TEST)
     gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
