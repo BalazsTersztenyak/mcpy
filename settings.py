@@ -3,39 +3,45 @@ import math
 import pyglet
 from pyglet.math import Vec3
 
-# OpenGL settings
+#region OpenGL settings
 MAJOR_VER, MINOR_VER = 3, 3
 DEPTH_SIZE = 24
 NUM_SAMPLES = 1  # antialiasing
+#endregion
 
-# resolution
+#region resolution
 WIN_RES = pyglet.math.Vec2(1600, 900)
 WIN_POS = pyglet.math.Vec2(10, 30)
+#endregion
 
 # world generation
 # SEED = 16
 
-# # ray casting
-# MAX_RAY_DIST = 6
+#region ray casting
+MAX_RAY_DIST = 6
+#endregion
 
-# chunk
+#region chunk
 CHUNK_SIZE = 48
 H_CHUNK_SIZE = CHUNK_SIZE // 2
 CHUNK_AREA = CHUNK_SIZE * CHUNK_SIZE
 CHUNK_VOL = CHUNK_AREA * CHUNK_SIZE
 CHUNK_SPHERE_RADIUS = H_CHUNK_SIZE * math.sqrt(3)
+#endregion
 
-# world
+#region world
 WORLD_W, WORLD_H = 20, 2
 WORLD_D = WORLD_W
 WORLD_AREA = WORLD_W * WORLD_D
 WORLD_VOL = WORLD_AREA * WORLD_H
+#endregion
 
-# world center
+#region world center
 CENTER_XZ = WORLD_W * H_CHUNK_SIZE
 CENTER_Y = WORLD_H * H_CHUNK_SIZE
+#endregion
 
-# camera
+#region camera
 ASPECT_RATIO = WIN_RES.x / WIN_RES.y
 FOV_DEG = 50
 V_FOV = math.radians(FOV_DEG)  # vertical FOV
@@ -43,14 +49,16 @@ H_FOV = 2 * math.atan(math.tan(V_FOV * 0.5) * ASPECT_RATIO)  # horizontal FOV
 Z_NEAR = 0.1
 Z_FAR = 2000.0
 PITCH_MAX = math.radians(89)
+#endregion
 
-# player
+#region player
 PLAYER_SPEED = 0.005
 PLAYER_ROT_SPEED = 0.003
 # PLAYER_POS = Vec3(CENTER_XZ, WORLD_H * CHUNK_SIZE, CENTER_XZ)
 # PLAYER_POS = Vec3(CENTER_XZ, CHUNK_SIZE, CENTER_XZ)
 PLAYER_POS = Vec3(0, 0, 0)
 MOUSE_SENSITIVITY = 0.002
+#endregion
 
 # colors
 BG_COLOR = Vec3(0.58, 0.83, 0.99)
