@@ -4,23 +4,23 @@ from chunk_data import Chunk
 class World:
     def __init__(self, app):
         self.app = app
-        self.chunks = []
+        self.chunks = {}
         self.load()
 
     def load(self):
         for x in range(4):
             for y in range(4):
-                self.chunks.append(Chunk(x, y))
+                self.chunks[(x, y)] = Chunk(x, y)
 
     def load_chunk(self, x, z):
         # TODO : load chunk
-        self.chunks.append(Chunk(x, z))
+        self.chunks[(x, z)] = Chunk(x, z)
 
     def unload_chunk(self, x, z):
-        for chunk in self.chunks:
-            if chunk.x == x and chunk.y == z:
-                chunk.unload()
-                self.chunks.remove(chunk)
+        if (x, z) in self.chunks:
+            self.chunks[(x, z)].unload()
+            del self.chunks[(x, z)]
+            self.chunks.remove((x, z))
 
     def get_block(self, xw, zw, y):
         xc, zc, x, z, y = self.convert_coord(xw, zw, y)
