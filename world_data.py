@@ -13,7 +13,6 @@ class World:
                 self.chunks[(x, y)] = Chunk(x, y)
 
     def load_chunk(self, x, z):
-        # TODO : load chunk
         self.chunks[(x, z)] = Chunk(x, z)
 
     def unload_chunk(self, x, z):
