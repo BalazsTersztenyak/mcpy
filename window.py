@@ -18,7 +18,6 @@ class Window(pyglet.window.Window):
         self.app = app
 
         self.input_handler = Input_handler()
-        #self.push_handlers(self.input_handler.keys)
 
     def on_draw(self) -> None:
         self.clear()    # window.clear()

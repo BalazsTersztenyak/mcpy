@@ -14,7 +14,6 @@ class Input_handler():
                         MOD_SCROLLLOCK,
                         MOD_ACCEL]
         self.keys = {}
-        #self.keys = KeyStateHandler()
 
 
     def update_keys(self, symbol, modifiers, pressed = True):
