@@ -10,7 +10,7 @@ class Chunk:
         self.blocks = {}
         self.load_chunk()
     
-    def load(self):
+    def _load(self):
         for x in range(self.SIZE):
             for y in range(self.SIZE):
                 for z in range(self.SIZE):
@@ -20,7 +20,7 @@ class Chunk:
         try:
             self.blocks = pickle.load(open(f"save_files/chunk_{self.x}_{self.z}.dat", "rb"))
         except FileNotFoundError:
-            self.load()
+            self._load()
 
     def unload_chunk(self):
         pickle.dump((self.blocks), open(f"save_files/chunk_{self.x}_{self.z}.dat", "wb"))
