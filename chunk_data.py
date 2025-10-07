@@ -18,12 +18,12 @@ class Chunk:
 
     def load_chunk(self):
         try:
-            self.blocks, self.top_block = pickle.load(open(f"chunk_{self.x}_{self.z}.dat", "rb"))
+            self.blocks = pickle.load(open(f"save_files/chunk_{self.x}_{self.z}.dat", "rb"))
         except FileNotFoundError:
             self.load()
 
     def unload_chunk(self):
-        pickle.dump((self.blocks, self.top_block), open(f"chunk_{self.x}_{self.z}.dat", "wb"))
+        pickle.dump((self.blocks), open(f"save_files/chunk_{self.x}_{self.z}.dat", "wb"))
 
     def get_block(self, x, z, y):
         return self.blocks.get((x, y, z), 0)
