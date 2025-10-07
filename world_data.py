@@ -22,12 +22,12 @@ class World:
             self.chunks.remove((x, z))
 
     def get_block(self, xw, zw, y):
-        xc, zc, x, z, y = self.convert_coord(xw, zw, y)
+        xc, zc, x, z, y = self._convert_coord(xw, zw, y)
         chunk = self.get_chunk(xc, zc)
         return chunk.get_block(x, z, y)
     
     def set_block(self, xw, zw, y, block):
-        xc, zc, x, z, y = self.convert_coord(xw, zw, y)
+        xc, zc, x, z, y = self._convert_coord(xw, zw, y)
         chunk = self.get_chunk(xc, zc)
         chunk.set_block(x, z, y, block)
 
@@ -37,17 +37,7 @@ class World:
                 return chunk
         return None
     
-    def update_top_block(self, xw, zw, y):
-        xc, zc, x, z, y = self.convert_coord(xw, zw, y)
-        chunk = self.get_chunk(xc, zc)
-        chunk.update_top_block(x, z, y)
-
-    def get_top_block(self, xw, zw):
-        xc, zc, x, z, y = self.convert_coord(xw, zw, y)
-        chunk = self.get_chunk(xc, zc)
-        return chunk.get_top_block(x, z)
-    
-    def convert_coord(self, xw, zw, y):
+    def _convert_coord(self, xw, zw, y):
         xc = math.floor(xw / Chunk.SIZE)
         zc = math.floor(zw // Chunk.SIZE)
         x = xw % Chunk.SIZE
