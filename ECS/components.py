@@ -18,3 +18,7 @@ class Acceleration:
     ddy: float
     ddz: float
 
+@dataclass
+class Health:
+    current: int
+    maximum: int
