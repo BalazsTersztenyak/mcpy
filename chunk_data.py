@@ -1,49 +1,37 @@
 # TODO : chunk class
-from json import load
 from math import pi
 import pickle
 
 class Chunk:
-    def __init__(self, x, y):
+    def __init__(self, x, z, size=16):
         self.x = x
-        self.y = y
-        self.SIZE = 16
-        self.blocks = []
-        self.entities = []
-        self.top_block = [0 for _ in range(self.SIZE * self.SIZE)]
-        self.load()
-    
-    def load(self):
-        for _ in range(self.SIZE * self.SIZE * self.SIZE):
-            self.blocks.append(0)
+        self.z = z
+        self.SIZE = size
+        self.blocks = {}
+        self.load_chunk()
+
+    def _check_in_chunk(self, x, z, y):
+        return 0 <= x < self.SIZE and 0 <= z < self.SIZE and 0 <= y < self.SIZE
 
     def load_chunk(self):
         try:
-            self.blocks, self.entities, self.top_block = pickle.load(open(f"chunk_{self.x}_{self.y}.dat", "rb"))
+            self.blocks = pickle.load(open(f"save_files/chunk_{self.x}_{self.z}.dat", "rb"))
         except FileNotFoundError:
-            self.load()
+            self.blocks = {}
 
     def unload_chunk(self):
-        pickle.dump((self.blocks, self.entities, self.top_block), open(f"chunk_{self.x}_{self.y}.dat", "wb"))
+        pickle.dump((self.blocks), open(f"save_files/chunk_{self.x}_{self.z}.dat", "wb"))
 
     def get_block(self, x, z, y):
-        return self.blocks[self._get_index(x, y, z)]
+        if not self._check_in_chunk(x, z, y):
+            raise ValueError("Block coordinates out of bounds")
+        
+        return self.blocks.get((x, y, z), 0)
     
     def set_block(self, x, z, y, block):
-        self.blocks[self._get_index(x, y, z)] = block
+        if not self._check_in_chunk(x, z, y):
+            raise ValueError("Block coordinates out of bounds")
+        self.blocks[(x, y, z)] = block
 
-    def update_top_block(self, x, z, y):
-        if y >= self.get_top_block(x, z):
-            self._set_top_block(x, z, y)
-
-    def get_top_block(self, x, z):
-        return self.top_block[self._get_index(x, z)]
-    
-    def _set_top_block(self, x, z, block):
-        self.top_block[self._get_index(x, z)] = block
-
-    def _get_index(self, x, y, z):
-        return x + (z * self.SIZE) + (y * self.SIZE * self.SIZE)
-    
-    def _get_index(self, x, z):
-        return x + (z * self.SIZE)
+    def update_block(self, x, z, y, block):
+        raise NotImplementedError("Update block not implemented yet")
