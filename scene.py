@@ -1,6 +1,8 @@
-from settings import *
-import pyglet
-from pyglet.gl import *
+"""Scene
+"""
+# from settings import *
+# import pyglet
+# from pyglet.gl import *
 # from world import World
 # from world_objects.voxel_marker import VoxelMarker
 # from world_objects.water import Water
@@ -8,6 +10,8 @@ from pyglet.gl import *
 from meshes.quad_mesh import QuadMesh
 
 class Scene:
+    """Scene
+    """
     def __init__(self, app):
         self.app = app
         # self.world = World(self.app)
@@ -17,13 +21,16 @@ class Scene:
         self.quad = QuadMesh(app)
 
     def update(self):
+        """Update
+        """
         # Update the world, voxel marker, and clouds
         # self.world.update()
         # self.voxel_marker.update()
         # self.clouds.update()
-        pass
 
     def render(self):
+        """Render
+        """
         # Render the world (chunks)
         # self.world.render()
 

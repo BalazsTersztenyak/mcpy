@@ -1,3 +1,5 @@
+"""Constants for the app
+"""
 # import numpy as np
 import math
 import pyglet

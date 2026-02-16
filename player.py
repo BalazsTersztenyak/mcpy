@@ -1,8 +1,12 @@
-from pyglet.window import key
+"""Player Class
+"""
+# from pyglet.window import key
 from camera import Camera
 import settings
 
 class Player(Camera):
+    """Player class, inherits from Camera. Handles player movement and rotation based on input.
+    """
     def __init__(self, app, position=settings.PLAYER_POS, yaw=0, pitch=0):
         super().__init__(position, yaw, pitch)
 
@@ -10,10 +14,15 @@ class Player(Camera):
         # self.mouse_state = app.mouse_state
         # self.mouse_x, self.mouse_y = 0, 0
 
-    def update(self, dt):
+    def update(self, dt: float):
+        """Update
+
+        Args:
+            dt (float): Time since last tick
+        """
         # self.keyboard_control(dt)
         # self.mouse_control()
-        super().update()
+        super().update(dt)
 
     # def mouse_control(self, x, y, dx, dy):
     #     self.rotate_pitch(dy * settings.MOUSE_SENSITIVITY)

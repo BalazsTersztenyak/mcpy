@@ -1,5 +1,8 @@
-from .entity_handler import Entity_Handler
-from .component_handler import Component_Handler
-from .system_handler import System_Handler
+"""ECS (Entity-Component-System) init file for importing handlers
+"""
+# pylint: disable=invalid-name
+from .entity_handler import EntityHandler
+from .component_handler import ComponentHandler
+from .system_handler import SystemHandler
 
-__all__ = ['Entity_Handler', 'Component_Handler', 'System_Handler']
+__all__ = ['EntityHandler', 'ComponentHandler', 'SystemHandler']

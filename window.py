@@ -1,9 +1,15 @@
+"""Window management and rendering using pyglet.
+"""
 import pyglet
 import pyglet.gl as gl
 import main
-from input_handling import Input_handler
+from input_handling import InputHandler
 
+#pylint: disable=abstract-method
 class Window(pyglet.window.Window):
+    """A class representing the application window, 
+    responsible for rendering and handling user input.
+    """
     def __init__(self, app: main.VoxelEngine) -> None:
         """Initializes the window and sets up the shader."""
         super().__init__(resizable=True)
@@ -17,7 +23,7 @@ class Window(pyglet.window.Window):
 
         self.app = app
 
-        self.input_handler = Input_handler()
+        self.input_handler = InputHandler()
 
     def on_draw(self) -> None:
         self.clear()    # window.clear()
@@ -28,6 +34,14 @@ class Window(pyglet.window.Window):
         gl.glViewport(0, 0, width, height)
 
     def set_clear_color(self, r: float, g: float, b: float, a: float = 1.0) -> None:
+        """Sets color to fill the window with on clear.
+
+        Args:
+            r (float): red value
+            g (float): green value
+            b (float): blue value
+            a (float, optional): alpha value. Defaults to 1.0.
+        """
         gl.glClearColor(r, g, b, a)
 
     def on_key_press(self, symbol, modifiers):

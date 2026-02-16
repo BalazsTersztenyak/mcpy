@@ -1,7 +1,12 @@
+"""BaseMesh is an abstract class that defines the structure for mesh objects in the application.
+"""
 import numpy as np
 from pyglet import gl
 
 class BaseMesh:
+    """An abstract base class for mesh objects. It defines the structure and methods 
+    that all mesh classes should implement.
+    """
     def __init__(self):
         # OpenGL context is handled by pyglet window
         self.program = None
@@ -10,11 +15,14 @@ class BaseMesh:
         self.vao = None
         self.vbo = None
 
-    def get_vertex_data(self) -> np.array:
-        """This method should return the vertex data"""
+    def get_vertex_data(self) -> np.ndarray:
+        """This method should return the vertex data
+        """
         raise NotImplementedError
 
     def get_vao(self):
+        """Initializes the Vertex Array Object (VAO) and Vertex Buffer Object (VBO) for the mesh.
+        """
         # Get the vertex data
         vertex_data = self.get_vertex_data()
         vertex_data = (gl.GLfloat * len(vertex_data))(*vertex_data)
@@ -47,11 +55,22 @@ class BaseMesh:
         gl.glBindBuffer(gl.GL_ARRAY_BUFFER, 0)
 
     def render(self):
+        """Renders the mesh using the initialized VAO.
+
+        Raises:
+            ValueError: If the VAO is not initialized.
+        """
         if self.vao is None:
             raise ValueError("VAO is not initialized. Call get_vao first.")
-        
+
+        if self.program is None:
+            raise ValueError("Shader program is not set. Assign a shader program to " \
+            "self.program before rendering.")
         gl.glUseProgram(self.program)
         gl.glBindVertexArray(self.vao)
-        gl.glDrawArrays(gl.GL_TRIANGLES, 0, len(self.get_vertex_data()) // len(self.vbo_format.split()))
+        gl.glDrawArrays(gl.GL_TRIANGLES,
+                        0,
+                        len(self.get_vertex_data()) // len(self.vbo_format.split())
+                        )
         gl.glBindVertexArray(0)
         gl.glUseProgram(0)
